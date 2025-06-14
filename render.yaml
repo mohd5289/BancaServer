@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: spring-boot-app
+    runtime: java
+    buildCommand: ./mvnw clean install
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        value: postgresql://banca_user:zpkli3FpbPsYIGMqB7Ya4rMV1V44uzIy@dpg-d16v5l6mcj7s73ckhpq0-a/banca
+      - key: SPRING_DATASOURCE_USERNAME
+        value: banca_user
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: zpkli3FpbPsYIGMqB7Ya4rMV1V44uzIy
