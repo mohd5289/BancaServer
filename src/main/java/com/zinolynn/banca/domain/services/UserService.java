@@ -55,7 +55,13 @@ public class UserService {
                 .hasSetPin(false)
                 .build();
 
-        emailService.sendVerificationEmail(user.getEmail(), user.getVerificationToken());
+
+        try {
+            emailService.sendVerificationEmail(user.getEmail(), user.getVerificationToken());
+        } catch (Exception e) {
+            // rollback if email sending is critical
+            throw new RuntimeException("Failed to send verification email. Please try again.", e);
+        }
 
         return userRepository.save(user);
 
