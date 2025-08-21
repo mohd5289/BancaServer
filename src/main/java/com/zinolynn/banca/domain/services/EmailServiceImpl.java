@@ -15,7 +15,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendVerificationEmail(String toEmail, String token) {
         String subject = "Verify your email";
-        String verifyUrl = "http://localhost:3000/verify-email?token=" + token;
+        String verifyUrl = "https://bancaserver-2.onrender.com/verify-email?token=" + token;
         String body = """
                 <p>Welcome!</p>
                 <p>Please verify your email by clicking the link below:</p>
