@@ -26,9 +26,18 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRegisterRequest request) {
-        return ResponseEntity.ok(userService.register(request));
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRegisterRequest request) {
+        Object registeredUser = userService.register(request);
+
+        ApiResponse<Object> response = new ApiResponse<>(
+                true,
+                "Registration successful. Please verify your email.",
+                registeredUser
+        );
+
+        return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<Map<String, String>>> login(@RequestBody UserLoginRequest request) {
