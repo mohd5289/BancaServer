@@ -1,6 +1,7 @@
 package com.zinolynn.banca.domain.controllers;
 
 
+import com.zinolynn.banca.domain.dtos.ApiResponse;
 import com.zinolynn.banca.domain.dtos.SetPinRequest;
 import com.zinolynn.banca.domain.dtos.UserLoginRequest;
 import com.zinolynn.banca.domain.dtos.UserRegisterRequest;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -29,8 +31,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest request) {
-        return ResponseEntity.ok(userService.login(request));
+    public ResponseEntity<ApiResponse<Map<String, String>>> login(@RequestBody UserLoginRequest request) {
+        ResponseEntity<?> tokenResponse = userService.login(request);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> tokenData = (Map<String, String>) tokenResponse.getBody();
+
+        ApiResponse<Map<String, String>> response = new ApiResponse<>(
+                true,
+                "Login successful",
+                tokenData
+        );
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@RequestParam String token) {
