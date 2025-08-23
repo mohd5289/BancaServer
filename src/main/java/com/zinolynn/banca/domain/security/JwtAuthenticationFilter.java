@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-         String jwt;
+
         final String email;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -35,12 +35,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = authHeader.substring(7).trim();
+       String jwt = authHeader.substring(7).trim();
 
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7).trim(); // 🚀 trim removes spaces
-        }
+
         try {
             email = jwtService.extractUsername(jwt);
         } catch (Exception e) {
