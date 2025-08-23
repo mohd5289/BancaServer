@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             email = jwtService.extractUsername(jwt);
         } catch (Exception e) {
             // expired/invalid token
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
