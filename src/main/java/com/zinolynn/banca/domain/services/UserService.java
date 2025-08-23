@@ -97,5 +97,6 @@ public class UserService {
         user.setPin(passwordEncoder.encode(req.getPin()));
         user.setHasSetPin(true);
         userRepository.save(user);
+        System.out.println("PIN has been set successfully for userId: " + user.getId());
     }
 }
