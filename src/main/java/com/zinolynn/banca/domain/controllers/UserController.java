@@ -77,11 +77,7 @@ public class UserController {
     public ResponseEntity<?> setPin(@RequestBody SetPinRequest request) {
         System.out.println("DEBUG: setPin called with request: " + request);
         userService.setPin(request);
-         return ResponseEntity.ok(new ApiResponse<>(
-                true,
-                "PIN set successfully",
-                null
-        ));
+        return ResponseEntity.ok("Hello World");
     }
 
     @PostMapping("/set-kin")
