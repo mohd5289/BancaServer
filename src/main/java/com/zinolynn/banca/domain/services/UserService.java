@@ -94,9 +94,14 @@ public class UserService {
             throw new RuntimeException("PIN already set");
         }
 
-        user.setPin(passwordEncoder.encode(req.getPin()));
-        user.setHasSetPin(true);
-        userRepository.save(user);
+        try {
+            user.setPin(passwordEncoder.encode(req.getPin()));
+            user.setHasSetPin(true);
+            userRepository.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Save failed: " + e.getMessage(), e);
+        }
         System.out.println("PIN has been set successfully for userId: " + user.getId());
     }
 }
