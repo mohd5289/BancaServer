@@ -73,7 +73,7 @@ public class UserController {
 
         return ResponseEntity.ok("Email verified successfully.");
     }
-    @PostMapping("/set-pin")
+    @PostMapping("/set-pinned")
     public ResponseEntity<?> setPin(@RequestBody SetPinRequest request) {
         System.out.println("DEBUG: setPin called with request: " + request);
         userService.setPin(request);
