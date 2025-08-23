@@ -37,6 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
        String jwt = authHeader.substring(7).trim();
 
+        System.out.println("DEBUG raw authHeader: [" + authHeader + "]");
+        System.out.println("DEBUG extracted jwt: [" + jwt + "]");
 
 
         try {
