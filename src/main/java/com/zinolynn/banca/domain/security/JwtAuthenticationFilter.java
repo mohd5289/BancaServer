@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
+         String jwt;
         final String email;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -36,11 +36,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-//        final String email;
+
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7).trim(); // 🚀 trim removes spaces
+        }
         try {
             email = jwtService.extractUsername(jwt);
         } catch (Exception e) {
             // expired/invalid token
+            System.out.println("DEBUG token: [" + jwt + "]");
             System.out.println("JWT parsing failed: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
