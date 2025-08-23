@@ -76,7 +76,11 @@ public class UserController {
     @PostMapping("/set-pin")
     public ResponseEntity<?> setPin(@RequestBody SetPinRequest request) {
         userService.setPin(request);
-        return ResponseEntity.ok("PIN set successfully");
+         return ResponseEntity.ok(new ApiResponse<>(
+                true,
+                "PIN set successfully",
+                null
+        ));
     }
 
 
