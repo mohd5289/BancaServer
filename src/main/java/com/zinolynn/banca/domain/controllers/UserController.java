@@ -83,7 +83,12 @@ public class UserController {
     @PostMapping("/set-kin")
     public ResponseEntity<String> setPinTest(@RequestBody SetPinRequest request) {
         System.out.println("DEBUG: Hello World endpoint hit!");
-        userService.setPin(request);
+        try {
+            userService.setPin(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Service error: " + e.getMessage());
+        }
         return ResponseEntity.ok("Hello World");
     }
 
