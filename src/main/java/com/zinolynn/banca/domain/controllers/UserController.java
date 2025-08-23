@@ -84,8 +84,8 @@ public class UserController {
         ));
     }
 
-    @GetMapping("/set-kin")
-    public ResponseEntity<String> setPinTest() {
+    @PostMapping("/set-kin")
+    public ResponseEntity<String> setPinTest(@RequestBody SetPinRequest request) {
         System.out.println("DEBUG: Hello World endpoint hit!");
         return ResponseEntity.ok("Hello World");
     }
