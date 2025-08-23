@@ -74,21 +74,19 @@ public class UserController {
         return ResponseEntity.ok("Email verified successfully.");
     }
     @PostMapping("/set-pinned")
-    public ResponseEntity<String> setPin(@RequestBody SetPinRequest request) {
+    public ResponseEntity<?> setPin(@RequestBody SetPinRequest request) {
         System.out.println("DEBUG: setPin called with request: " + request);
         userService.setPin(request);
-        return ResponseEntity.ok("Hello World");
+         return ResponseEntity.ok(new ApiResponse<>(
+                true,
+                "PIN set successfully",
+                null
+        ));
     }
 
     @PostMapping("/set-kin")
     public ResponseEntity<String> setPinTest(@RequestBody SetPinRequest request) {
         System.out.println("DEBUG: Hello World endpoint hit!");
-        try {
-            userService.setPin(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Service error: " + e.getMessage());
-        }
         return ResponseEntity.ok("Hello World");
     }
 
