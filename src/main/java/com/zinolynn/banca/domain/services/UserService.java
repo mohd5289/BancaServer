@@ -93,15 +93,13 @@ public class UserService {
         if (user.isHasSetPin()) {
             throw new RuntimeException("PIN already set");
         }
-
-        try {
+        if (!req.getPin().matches("^\\d{4}$")) {
+            throw new IllegalArgumentException("PIN must be exactly 4 digits");
+        }
             user.setPin(passwordEncoder.encode(req.getPin()));
             user.setHasSetPin(true);
             userRepository.save(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Save failed: " + e.getMessage(), e);
-        }
+
         System.out.println("PIN has been set successfully for userId: " + user.getId());
     }
 }

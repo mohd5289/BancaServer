@@ -47,8 +47,7 @@ public class User {
     @Column
     private String referralCode;
 
-    @Column(nullable = true)
-    @Pattern(regexp = "^\\d{4}$", message = "PIN must be exactly 4 digits")
+    @Column(length = 255, nullable = false) // enough space for bcrypt hashes
     private String pin;
 
     @Enumerated(EnumType.STRING)
