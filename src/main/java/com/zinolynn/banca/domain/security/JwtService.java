@@ -24,6 +24,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(customUser.getUsername())
                 .claim("hasSetPin", customUser.getHasSetPin())
+                .claim("username", customUser.getFullName())
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
                 .signWith(secretKey, SignatureAlgorithm.HS256)  // ✅ proper key usage
