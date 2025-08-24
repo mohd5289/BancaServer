@@ -20,8 +20,10 @@ public class JwtService {
     );// put this in config later
 
     public String generateToken(UserDetails userDetails) {
+        CustomUserDetails customUser = (CustomUserDetails) userDetails;
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(customUser.getUsername())
+                .claim("hasSetPin", customUser.getHasSetPin())
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
                 .signWith(secretKey, SignatureAlgorithm.HS256)  // ✅ proper key usage
