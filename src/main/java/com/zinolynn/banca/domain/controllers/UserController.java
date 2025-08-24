@@ -1,10 +1,7 @@
 package com.zinolynn.banca.domain.controllers;
 
 
-import com.zinolynn.banca.domain.dtos.ApiResponse;
-import com.zinolynn.banca.domain.dtos.SetPinRequest;
-import com.zinolynn.banca.domain.dtos.UserLoginRequest;
-import com.zinolynn.banca.domain.dtos.UserRegisterRequest;
+import com.zinolynn.banca.domain.dtos.*;
 import com.zinolynn.banca.domain.entities.User;
 import com.zinolynn.banca.domain.repositories.UserRepository;
 import com.zinolynn.banca.domain.services.UserService;
@@ -82,6 +79,29 @@ public class UserController {
                 "PIN set successfully",
                 null
         ));
+    }
+
+    @PostMapping("/verify-pin")
+    public ResponseEntity<ApiResponse<Boolean>> verifyPin(
+            @RequestBody VerifyPinRequest request,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            boolean isValid = userService.verifyPin(token, request.getPin());
+
+            ApiResponse<Boolean> response = new ApiResponse<>(
+                    isValid,
+                    isValid ? "PIN verified successfully" : "Invalid PIN",
+                    isValid
+            );
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    new ApiResponse<>(false, "Unauthorized or invalid request", null)
+            );
+        }
     }
 
     @PostMapping("/set-kin")

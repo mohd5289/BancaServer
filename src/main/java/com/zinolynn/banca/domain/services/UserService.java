@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,5 +102,15 @@ public class UserService {
             userRepository.save(user);
 
         System.out.println("PIN has been set successfully for userId: " + user.getId());
+    }
+
+
+    public boolean verifyPin(String token, String pin) {
+        String username = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Compare hash if you are hashing PINs
+        return passwordEncoder.matches(pin, user.getPin());
     }
 }
