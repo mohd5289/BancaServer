@@ -110,4 +110,30 @@ public class UserController {
         return ResponseEntity.ok("Hello World");
     }
 
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<?>> getUser(
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            User user = userService.getUserFromToken(token);
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                        new ApiResponse<>(false, "Invalid or expired token", null)
+                );
+            }
+
+            UserDTO dto = UserDTO.fromEntity(user);
+
+            return ResponseEntity.ok(
+                    new ApiResponse<>(true, "User retrieved successfully", dto)
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    new ApiResponse<>(false, "Unauthorized or invalid request", null)
+            );
+        }
+    }
 }

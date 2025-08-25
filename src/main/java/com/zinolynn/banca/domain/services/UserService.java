@@ -103,7 +103,10 @@ public class UserService {
 
         System.out.println("PIN has been set successfully for userId: " + user.getId());
     }
-
+    public User getUserFromToken(String token) {
+        String email = jwtService.extractUsername(token); // depends on how you build JWT
+        return userRepository.findByEmail(email).orElse(null);
+    }
 
     public boolean verifyPin(String token, String pin) {
         String username = jwtService.extractUsername(token);
